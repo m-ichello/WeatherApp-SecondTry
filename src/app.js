@@ -31,12 +31,26 @@ function displayTemperature(response) {
     iconElement.setAttribute("alt",`response.data.condition.icon`);
 }
 
+function search(city) {
+let apiKey ="073c348fbaftb842o6700ee01183a6a5";
+let apiUrl =`https://api.shecodes.io/weather/v1/current?query=${city}&key=073c348fbaftb842o6700ee01183a6a5&units=metric`;
+axios.get(apiUrl).then(displayTemperature);
+}
 
 
+function handleSubmit(event) {
+    event.preventDefault();
+    let cityInputElement=document.querySelector("#city-input");
+    search(cityInputElement.value);
+}
 
+search("San Francisco");
 
 let apiKey ="073c348fbaftb842o6700ee01183a6a5";
 let city = "San Fransisco"; 
 let apiUrl =`https://api.shecodes.io/weather/v1/current?query=${city}&key=073c348fbaftb842o6700ee01183a6a5&units=metric`;
 
 axios.get(apiUrl).then(displayTemperature);
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
