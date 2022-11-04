@@ -13,7 +13,8 @@ function formatDate(timestamp) {
     return `${day} ${hours}:${minutes}`;
 }
 
-function displayForecast() {
+function displayForecast(response) {
+    console.log(response.data.city);
     let forecastElement = document.querySelector("#forecast");
   
     let days = ["Thu", "Fri", "Sat", "Sun","Mon"];
@@ -42,6 +43,16 @@ function displayForecast() {
     forecastElement.innerHTML = forecastHTML;
   }
 
+function getForecast(coordinates) {
+    console.log(coordinates);
+    let apiKey= "073c348fbaftb842o6700ee01183a6a5";
+    let apiUrl= `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.lon}&lat=${coordinates.lat}&key=${apiKey}&units=metric`; 
+console.log(apiUrl);
+axios.get(apiUrl).then(displayForecast);
+
+}
+
+
 function displayTemperature(response) {
     let temperatureElement = document.querySelector("#temperature");
     let cityElement = document.querySelector("#city");
@@ -58,6 +69,10 @@ function displayTemperature(response) {
     dateElement.innerHTML = formatDate(response.data.time * 1000); 
     iconElement.setAttribute("src", `https://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`);
     iconElement.setAttribute("alt",`response.data.condition.icon`);
+
+getForecast(response.data.coordinates);
+
+
 }
 
 function search(city) {
@@ -83,5 +98,3 @@ axios.get(apiUrl).then(displayTemperature);
 
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
-
-displayForecast();
